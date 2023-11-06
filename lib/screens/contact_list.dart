@@ -8,6 +8,7 @@ import '../constants/themes.dart';
 import '../models/contact.dart';
 import '../providers/contact_data.dart';
 import 'contact_add.dart';
+import 'contact_info.dart';
 
 class ContactList extends StatefulWidget {
   const ContactList({super.key});
@@ -67,6 +68,12 @@ class _ContactListState extends State<ContactList> {
                   ),
                   title: Text(contact.name!),
                   subtitle: Text(contact.phone!),
+                  onTap: () {
+                    context.goNamed(
+                      (ContactInfo).toString(),
+                      pathParameters: {'id': contact.id!.toString()},
+                    );
+                  },
                 );
               },
             );

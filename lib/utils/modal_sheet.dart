@@ -29,8 +29,6 @@ Future<void> showAppModalBottomSheet({
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            // We need to add this line instead of every time Nesting the children inside a column with this property
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Widgets.spacingVertical,
               const SizedBox(

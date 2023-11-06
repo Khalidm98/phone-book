@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../config/router.dart';
 import '../models/contact.dart';
 import '../utils/snack_bar.dart';
 
@@ -40,6 +41,8 @@ class ContactData with ChangeNotifier {
   ];
 
   Contact? _toBeAdded;
+  Contact? obj;
+  bool objError = false;
 
   Contact get toBeAdded => _toBeAdded ??= Contact();
 
@@ -53,5 +56,16 @@ class ContactData with ChangeNotifier {
     notifyListeners();
     clearToBeAdded();
     return list.last;
+  }
+
+  Future<void> getObj() async {
+    try {
+      final object = list
+          .singleWhere((e) => e.id.toString() == AppRouter.pathParams['id']);
+      obj = Contact.fromJson(object.toJson());
+    } catch (_) {
+      objError = true;
+    }
+    notifyListeners();
   }
 }
