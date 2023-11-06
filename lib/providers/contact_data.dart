@@ -51,7 +51,7 @@ class ContactData with ChangeNotifier {
   void clearToBeAdded() => _toBeAdded = null;
 
   Future<Contact?> add() async {
-    toBeAdded.id = list.length + 1;
+    toBeAdded.id = list.last.id! + 1;
     list = list.map((e) => e).toList();
     list.add(toBeAdded);
     showSnackBar('Contact added successfully');
@@ -63,7 +63,8 @@ class ContactData with ChangeNotifier {
   Future<Contact?> edit() async {
     obj = Contact.fromJson(toBeEdited!.toJson());
     list = list.map((e) => e).toList();
-    list[toBeEdited!.id! - 1] = toBeEdited!;
+    final index = list.indexWhere((e) => e.id == toBeEdited!.id!);
+    list[index] = toBeEdited!;
     showSnackBar('Contact edited successfully');
     notifyListeners();
     toBeEdited = null;
@@ -91,6 +92,13 @@ class ContactData with ChangeNotifier {
     } catch (_) {
       editError = true;
     }
+    notifyListeners();
+  }
+
+  void delete() {
+    list = list.map((e) => e).toList();
+    list.removeWhere((e) => e.id == obj!.id);
+    showSnackBar('Contact deleted successfully');
     notifyListeners();
   }
 }

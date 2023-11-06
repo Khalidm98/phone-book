@@ -19,7 +19,7 @@ class ContactAddState extends State<ContactAdd> {
   late final ContactData _data;
   final _formKey = GlobalKey<FormState>();
 
-  Contact get obj => _data.toBeAdded;
+  Contact get _obj => _data.toBeAdded;
 
   @override
   void initState() {
@@ -45,14 +45,14 @@ class ContactAddState extends State<ContactAdd> {
           child: ListView(
             padding: Widgets.marginAll,
             children: [
-              ImagePick(onSaved: (val) => obj.avatar = val?.path),
+              ImagePick(onSaved: (val) => _obj.avatar = val?.path),
               Widgets.spacingVertical,
               NameField(
                 textInputAction: TextInputAction.next,
-                onSaved: (val) => obj.name = val,
+                onSaved: (val) => _obj.name = val,
               ),
               Widgets.spacingVertical,
-              PhoneField(onSaved: (val) => obj.phone = val),
+              PhoneField(onSaved: (val) => _obj.phone = val),
               Widgets.spacingVertical,
               ElevatedButton(onPressed: _add, child: const Text('Add')),
             ],

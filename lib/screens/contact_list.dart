@@ -50,6 +50,11 @@ class _ContactListState extends State<ContactList> {
         body: Selector<ContactData, List<Contact>>(
           selector: (_, data) => data.list,
           builder: (_, list, __) {
+            if (list.isEmpty)
+              return const Center(
+                child: Text('No contacts yet.\nAdd a new one.'),
+              );
+
             return ListView.separated(
               itemCount: list.length,
               separatorBuilder: (_, __) =>

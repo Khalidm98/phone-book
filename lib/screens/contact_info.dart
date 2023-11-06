@@ -18,7 +18,7 @@ class ContactInfo extends StatefulWidget {
 class ContactInfoState extends State<ContactInfo> {
   late final ContactData _data;
 
-  Contact get obj => _data.obj!;
+  Contact get _obj => _data.obj!;
 
   @override
   void initState() {
@@ -43,34 +43,68 @@ class ContactInfoState extends State<ContactInfo> {
 
     if (object == null) return const Scaffold(body: Widgets.loading);
 
-    return scaffold;
+    return _scaffold;
   }
 
-  Scaffold get scaffold {
+  Scaffold get _scaffold {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contact Info'),
+        actions: [
+          IconButton(
+            tooltip: 'Delete',
+            icon: const Icon(Icons.delete),
+            onPressed: _showDeleteDialog,
+          ),
+        ],
       ),
       body: ListView(
         padding: Widgets.marginAll,
         children: [
-          CircleImage(initialImage: obj.avatar),
+          CircleImage(initialImage: _obj.avatar),
           Widgets.spacingVertical,
-          Text(obj.name!, textAlign: TextAlign.center, textScaleFactor: 1.2),
+          Text(_obj.name!, textAlign: TextAlign.center, textScaleFactor: 1.2),
           Widgets.spacingVertical,
-          Text(obj.phone!, textAlign: TextAlign.center),
+          Text(_obj.phone!, textAlign: TextAlign.center),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.pushNamed(
             (ContactEdit).toString(),
-            pathParameters: {'id': obj.id!.toString()},
+            pathParameters: {'id': _obj.id!.toString()},
           );
         },
         child: const Icon(Icons.edit),
         tooltip: 'Edit',
       ),
     );
+  }
+
+  void _showDeleteDialog() {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text('Delete this contact?'),
+          actions: [
+            TextButton(
+              onPressed: _delete,
+              child: const Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () => context.pop(),
+              child: const Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _delete() {
+    context.pop();
+    _data.delete();
+    context.pop();
   }
 }

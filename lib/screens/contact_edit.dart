@@ -20,7 +20,7 @@ class ContactEditState extends State<ContactEdit> {
   late final ContactData _data;
   final _formKey = GlobalKey<FormState>();
 
-  Contact get obj => _data.toBeEdited!;
+  Contact get _obj => _data.toBeEdited!;
 
   @override
   void initState() {
@@ -60,19 +60,19 @@ class ContactEditState extends State<ContactEdit> {
             padding: Widgets.marginAll,
             children: [
               ImagePick(
-                initialImage: obj.avatar,
-                onSaved: (val) => obj.avatar = val?.path,
+                initialImage: _obj.avatar,
+                onSaved: (val) => _obj.avatar = val?.path,
               ),
               Widgets.spacingVertical,
               NameField(
-                initialValue: obj.name,
+                initialValue: _obj.name,
                 textInputAction: TextInputAction.next,
-                onSaved: (val) => obj.name = val,
+                onSaved: (val) => _obj.name = val,
               ),
               Widgets.spacingVertical,
               PhoneField(
-                initialValue: obj.phone,
-                onSaved: (val) => obj.phone = val,
+                initialValue: _obj.phone,
+                onSaved: (val) => _obj.phone = val,
               ),
               Widgets.spacingVertical,
               ElevatedButton(onPressed: _edit, child: const Text('Edit')),
