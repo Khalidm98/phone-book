@@ -2,21 +2,30 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/themes.dart';
+import '../providers/contact_data.dart';
 
-class PhoneList extends StatefulWidget {
-  const PhoneList({super.key});
+class ContactList extends StatefulWidget {
+  const ContactList({super.key});
 
   @override
-  State<PhoneList> createState() => _PhoneListState();
+  State<ContactList> createState() => _ContactListState();
 }
 
-class _PhoneListState extends State<PhoneList> {
+class _ContactListState extends State<ContactList> {
+  late final ContactData _data;
+
+  @override
+  void initState() {
+    super.initState();
+    _data = context.read<ContactData>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeSwitchingArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Phone Book'),
+          title: const Text('Contact List'),
           actions: [
             ThemeSwitcher(
               builder: (context) {
@@ -40,7 +49,23 @@ class _PhoneListState extends State<PhoneList> {
             )
           ],
         ),
-        body: const Center(child: Text('Phones')),
+        body: ListView.separated(
+          itemCount: _data.list.length,
+          separatorBuilder: (_, __) => const Divider(height: 1, thickness: 1),
+          itemBuilder: (_, index) {
+            final contact = _data.list[index];
+            return ListTile(
+              leading: CircleAvatar(
+                backgroundImage: contact.avatar == null
+                    ? null
+                    : NetworkImage(contact.avatar!),
+                child: contact.avatar == null ? Text(contact.name![0]) : null,
+              ),
+              title: Text(contact.name!),
+              subtitle: Text(contact.phone!),
+            );
+          },
+        ),
       ),
     );
   }

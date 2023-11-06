@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'config/router.dart';
 import 'constants/themes.dart';
+import 'providers/contact_data.dart';
 import 'screens/error_screen.dart';
 
 void main() async {
@@ -23,16 +24,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeProvider(
-      initTheme: Themes.current,
-      builder: (_, theme) {
-        return MaterialApp.router(
-          routerConfig: AppRouter.router,
-          debugShowCheckedModeBanner: false,
-          theme: theme,
-          title: 'Phone Book',
-        );
-      },
+    return ChangeNotifierProvider(
+      create: (_) => ContactData(),
+      child: ThemeProvider(
+        initTheme: Themes.current,
+        builder: (_, theme) {
+          return MaterialApp.router(
+            routerConfig: AppRouter.router,
+            debugShowCheckedModeBanner: false,
+            theme: theme,
+            title: 'Phone Book',
+          );
+        },
+      ),
     );
   }
 }

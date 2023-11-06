@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:phone_book/screens/phone_list.dart';
 
 import '../constants/widgets.dart';
+import 'contact_list.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key});
@@ -22,7 +22,7 @@ class ErrorScreen extends StatelessWidget {
             Widgets.spacingVertical,
             ElevatedButton(
               child: const Text('Go To Home'),
-              onPressed: () => context.goNamed((PhoneList).toString()),
+              onPressed: () => context.goNamed((ContactList).toString()),
             ),
           ],
         ),
