@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../models/contact.dart';
+import '../utils/snack_bar.dart';
 
 export 'package:provider/provider.dart';
 
 class ContactData with ChangeNotifier {
-  final list = [
+  var list = [
     Contact(
       id: 1,
       name: 'Alice Johnson',
@@ -37,4 +38,20 @@ class ContactData with ChangeNotifier {
       avatar: 'https://picsum.photos/200/300',
     )
   ];
+
+  Contact? _toBeAdded;
+
+  Contact get toBeAdded => _toBeAdded ??= Contact();
+
+  void clearToBeAdded() => _toBeAdded = null;
+
+  Future<Contact?> add() async {
+    toBeAdded.id = list.length;
+    list = list.map((e) => e).toList();
+    list.add(toBeAdded);
+    showSnackBar('Contact added successfully');
+    notifyListeners();
+    clearToBeAdded();
+    return list.last;
+  }
 }

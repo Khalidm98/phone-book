@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../constants/themes.dart';
+import '../models/contact.dart';
 import '../providers/contact_data.dart';
+import 'contact_add.dart';
 
 class ContactList extends StatefulWidget {
   const ContactList({super.key});
@@ -12,14 +17,6 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
-  late final ContactData _data;
-
-  @override
-  void initState() {
-    super.initState();
-    _data = context.read<ContactData>();
-  }
-
   @override
   Widget build(BuildContext context) {
     return ThemeSwitchingArea(
@@ -49,22 +46,35 @@ class _ContactListState extends State<ContactList> {
             )
           ],
         ),
-        body: ListView.separated(
-          itemCount: _data.list.length,
-          separatorBuilder: (_, __) => const Divider(height: 1, thickness: 1),
-          itemBuilder: (_, index) {
-            final contact = _data.list[index];
-            return ListTile(
-              leading: CircleAvatar(
-                backgroundImage: contact.avatar == null
-                    ? null
-                    : NetworkImage(contact.avatar!),
-                child: contact.avatar == null ? Text(contact.name![0]) : null,
-              ),
-              title: Text(contact.name!),
-              subtitle: Text(contact.phone!),
+        body: Selector<ContactData, List<Contact>>(
+          selector: (_, data) => data.list,
+          builder: (_, list, __) {
+            return ListView.separated(
+              itemCount: list.length,
+              separatorBuilder: (_, __) =>
+                  const Divider(height: 1, thickness: 1),
+              itemBuilder: (_, index) {
+                final contact = list[index];
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: (contact.avatar == null
+                        ? null
+                        : contact.avatar!.startsWith('/')
+                            ? FileImage(File(contact.avatar!))
+                            : NetworkImage(contact.avatar!) as ImageProvider),
+                    child:
+                        contact.avatar == null ? Text(contact.name![0]) : null,
+                  ),
+                  title: Text(contact.name!),
+                  subtitle: Text(contact.phone!),
+                );
+              },
             );
           },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.goNamed((ContactAdd).toString()),
+          child: const Icon(Icons.add, size: 32),
         ),
       ),
     );
