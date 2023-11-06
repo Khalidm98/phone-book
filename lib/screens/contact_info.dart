@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../constants/widgets.dart';
 import '../models/contact.dart';
 import '../providers/contact_data.dart';
 import '../widgets/circle_image.dart';
+import 'contact_edit.dart';
 import 'error_screen.dart';
 
 class ContactInfo extends StatefulWidget {
@@ -58,6 +60,16 @@ class ContactInfoState extends State<ContactInfo> {
           Widgets.spacingVertical,
           Text(obj.phone!, textAlign: TextAlign.center),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.pushNamed(
+            (ContactEdit).toString(),
+            pathParameters: {'id': obj.id!.toString()},
+          );
+        },
+        child: const Icon(Icons.edit),
+        tooltip: 'Edit',
       ),
     );
   }

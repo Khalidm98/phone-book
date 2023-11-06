@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../screens/contact_add.dart';
+import '../screens/contact_edit.dart';
 import '../screens/contact_info.dart';
 import '../screens/error_screen.dart';
 import '../screens/contact_list.dart';
@@ -43,6 +44,14 @@ abstract class AppRouter {
             path: ':id',
             name: (ContactInfo).toString(),
             builder: (_, __) => const ContactInfo(),
+            routes: [
+              GoRoute(
+                parentNavigatorKey: _rootNavKey,
+                path: 'edit',
+                name: (ContactEdit).toString(),
+                builder: (_, __) => const ContactEdit(),
+              ),
+            ],
           ),
         ],
       ),

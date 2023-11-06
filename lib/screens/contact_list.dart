@@ -82,6 +82,7 @@ class _ContactListState extends State<ContactList> {
         floatingActionButton: FloatingActionButton(
           onPressed: () => context.goNamed((ContactAdd).toString()),
           child: const Icon(Icons.add, size: 32),
+          tooltip: 'Add',
         ),
       ),
     );
